@@ -16,11 +16,10 @@ class RoleTableSeeder extends Seeder
     public function run()
     {
 
-        $executor = [
-            'task-list',
-            'task-edit',
-            'project-list'
-  
+        $user = [
+            'album-list',
+            'album-edit',
+
         ];
         $roles = config('defaults.roles');
         if (count($roles)) {
@@ -28,19 +27,19 @@ class RoleTableSeeder extends Seeder
                 $hasRole = Role::filterName($role)->count();
                 if (!$hasRole) {
                     $defaultRole = Role::create(['name' => $role]);
-                    if ($defaultRole && $role == "executor") {
-                        $defaultRole->syncPermissions($executor);
+                    if ($defaultRole && $role == "user") {
+                        $defaultRole->syncPermissions($user);
                     }
-                    if ($defaultRole && $role == "manager") {
+                    if ($defaultRole && $role == "admin") {
                         $defaultRole->syncPermissions(Permission::whereIn('name', config('defaults.permissions'))->get());
-                    }                   
+                    }
                 } else {
-                    $defaultRole = Role::filterName($role)->first();                 
-                    if ($defaultRole && $role == "manager") {
+                    $defaultRole = Role::filterName($role)->first();
+                    if ($defaultRole && $role == "admin") {
                         $defaultRole->syncPermissions(Permission::whereIn('name', config('defaults.permissions'))->get());
                     }
-                    if ($defaultRole && $role == "executor") {
-                        $defaultRole->syncPermissions(Permission::whereIn('name', $executor)->get());
+                    if ($defaultRole && $role == "user") {
+                        $defaultRole->syncPermissions(Permission::whereIn('name', $user)->get());
                     }
                 }
             }

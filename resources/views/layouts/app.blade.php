@@ -63,8 +63,6 @@
                 </div>
             </div>
         </nav>
-
-
         <main class="py-4">
             <div class="container">
                 @if ($message = Session::get('success'))

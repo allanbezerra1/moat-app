@@ -28,10 +28,9 @@ class UserController extends Controller
         return view('users.index', compact('user'));
     }
 
-    public function create($id)
+    public function create()
     {
-        $user = $this->userServices->create($id);
-        return view('users.index', compact('user'));
+        return view('users.create');
     }
 
     public function edit($id)

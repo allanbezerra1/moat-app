@@ -4,14 +4,13 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Edit User</h2>
+                <h2>Update Album</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('user.index') }}" title="Go back">back </a>
+                <a class="btn btn-primary" href="{{ route('album.index') }}" title="Go back"> Back</a>
             </div>
         </div>
     </div>
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -23,22 +22,31 @@
         </div>
     @endif
 
-    <form action="{{ route('user.update', $user->id) }}" method="POST">
+    <form action="{{ route('album.update', $album->id) }}" method="POST" >
         @csrf
         @method('PUT')
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Full Name:</strong>
-                    <input type="text" name="full_name" value="{{ $user->full_name }}" class="form-control" placeholder="full Name">
+                    <strong>Artist:</strong>
+                    <select class="form form-control" id="" name="artist" value="{{ $album->artist }}">
+                        @foreach ($newArtist as $artists )
+                            <option value="{{ $artists->name }}">{{ $artists->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Name:</strong>
-                    <textarea class="form-control" style="height:50px" name="name"
-                        placeholder="Name">{{ $user->name }}</textarea>
+                    <strong>Album name:</strong>
+                    <input type="text" name="name" class="form-control" value="{{ $album->name }}" placeholder="Album name">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Year:</strong>
+                    <input type="number" name="year" class="form-control" value="{{ $album->year }}" placeholder="Year">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

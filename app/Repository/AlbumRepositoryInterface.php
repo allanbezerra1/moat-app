@@ -2,4 +2,5 @@
 
 namespace App\Repository;
 
-interface AlbumRepositoryInterface extends EloquentRepositoryInterface {}
+interface AlbumRepositoryInterface extends EloquentRepositoryInterface  {
+}

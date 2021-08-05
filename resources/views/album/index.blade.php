@@ -4,46 +4,36 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Laravel 8 CRUD </h2>
+                <h2>Albums</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success mb-4" href="{{ route('user.create') }}" title="Create a project">
-                    New
+                <a class="btn btn-success mb-4" href="{{ route('album.create') }}" title="Create a project">
+                    New Album
                     </a>
             </div>
         </div>
     </div>
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-
     <table class="table table-bordered table-responsive-lg">
         <tr>
-            <th>No</th>
-            <th>Full Name</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Date Created</th>
+            <th>Artist</th>
+            <th>Album Name</th>
+            <th>Year</th>
             <th width="280px">Action</th>
         </tr>
-        @foreach ($user as $i=>$users)
+        @foreach ($album as $i=>$albums)
             <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $users->full_name }}</td>
-                <td>{{ $users->name}}</td>
-                <td></td>
-                <td>{{ date_format($users->created_at, 'jS M Y') }}</td>
+                <td>{{ $albums->artist}}</td>
+                <td>{{ $albums->name}}</td>
+                <td>{{ $albums->year}}</td>
                 <td>
-                    <form action="{{ route('user.destroy', $users->id) }}" method="POST">
+                    <form action="{{ route('album.destroy', $albums->id) }}" method="POST">
 
-                        <a class="btn btn-success" href="{{ route('user.show', $users->id) }}" title="show">
+                        <a class="btn btn-success" href="{{ route('album.show', $albums->id) }}" title="show">
                             show
                         </a>
 
-                        <a class="btn btn-primary" href="{{ route('user.edit', $users->id) }}">
+                        <a class="btn btn-primary" href="{{ route('album.edit', $albums->id) }}">
                             edit<i class="fas fa-edit fa-lg"></i>
 
                         </a>
@@ -61,6 +51,6 @@
         @endforeach
     </table>
 
-    {{-- {!! $user->render() !!} --}}
+    {{-- {!! $album->render() !!} --}}
 
 @endsection

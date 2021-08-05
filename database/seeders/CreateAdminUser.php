@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class CreateAdminUser extends Seeder
 {
@@ -16,15 +14,15 @@ class CreateAdminUser extends Seeder
      */
     public function run()
     {
-        $hasManager = User::where('email', 'manager@hotmail.com')->count();
+        $hasAdmin = User::where('name', 'admin')->count();
 
-        if (!$hasManager) {
-            $manager = new User();
-            $manager->full_name = 'admin teste';
-            $manager->name = 'admin';
-            $manager->password = bcrypt('12345678');
-            $manager->save();
-            $manager->syncRoles('admin');
+        if (!$hasAdmin) {
+            $admin = new User();
+            $admin->full_name = 'admin teste';
+            $admin->name = 'admin';
+            $admin->password = bcrypt('12345678');
+            $admin->save();
+            $admin->syncRoles('admin');
         }
     }
 }

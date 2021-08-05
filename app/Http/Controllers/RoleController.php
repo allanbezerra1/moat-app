@@ -55,10 +55,10 @@ class RoleController extends Controller
           $role = Role::create(['name' => $request->input('name')]);
           $role->syncPermissions($request->input('permission'));
 
-          return redirect()->route('roles.index')
-          ->with('success','Role created successfully');
+          return redirect()->route('role.index')
+          ->withSuccess('Role created successfully');
         } catch (\Throwable $th) {
-            return redirect()->route('roles.index')
+            return redirect()->route('role.index')
             ->with('error',$th->getMessage());
         }
 
@@ -87,7 +87,7 @@ class RoleController extends Controller
             return view('roles.edit',compact('role','permission','rolePermissions'));
 
       } catch (\Throwable $th) {
-        return redirect()->route('roles.index')
+        return redirect()->route('role.index')
         ->with('error',$th->getMessage());
       }
 
@@ -115,7 +115,7 @@ class RoleController extends Controller
         $role->save();
         $role->syncPermissions($request->input('permission'));
 
-           return redirect()->route('roles.index')->with('success','Role updated successfully');
+           return redirect()->route('role.index')->with('success','Role updated successfully');
         } catch (\Throwable $th) {
             return redirect()->route('roles.index')
             ->with('error',$th->getMessage());

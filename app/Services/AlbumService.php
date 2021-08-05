@@ -19,36 +19,36 @@ class AlbumService
         return $this->albumRepository->All();
     }
 
+    public function Artist(){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', 'https://moat.ai/api/task/',
+            ['headers' => ['Basic' => 'ZGV2ZWxvcGVyOlpHVjJaV3h2Y0dWeQ==',
+            'Content-Type' => 'application/json',
+            ]
+        ]);
+        $newArtist =[];
+        foreach (json_decode($response->getBody()) as  $value) {
+            $newArtist[] =$value[0];
+        }
+        return $newArtist;
+    }
+
     public function FindById(int $id)
     {
         return $this->albumRepository->findById($id);
     }
     public function create(array $data)
     {
-
         return $this->albumRepository->create($data);
     }
 
     public function update(int $id, array $data)
     {
-
-
-        $albumTasks = Album::with('tasks')->find($id);
-        foreach ($albumTasks->tasks as  $value) {
-            if ( $data['status'] =='done' && $value->status != 'done'){
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Sorry , It is not possible to complete the album as there are still pending tasks',
-                ],400);
-            }
-        }
-        $this->albumRepository->update($id, $data);
-        return response()->json(['message' => 'User Updated'], 200);
+        return $this->albumRepository->update($id, $data);
     }
 
     public function destroy(int $id)
     {
-        $this->albumRepository->deleteById($id);
-        return response()->json(['message' => 'User Deleted'], 200);
+        return  $this->albumRepository->deleteById($id);
     }
 }
