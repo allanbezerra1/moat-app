@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = '/user';
+    protected $redirectTo = '/album';
 
     protected $name;
 
@@ -30,11 +30,11 @@ class LoginController extends Controller
 
         $credentials = $request->only('name', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('user')
+            return redirect()->intended('/album')
                         ->withSuccess('Signed in');
         }
 
-        return redirect("login")->withErrors('Login details are not valid');
+        return redirect("login")->withErrors("Sorry, we couldn't find an account with this username. Please check you're using the right username and try again.");
     }
 
 

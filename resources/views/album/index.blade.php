@@ -28,23 +28,19 @@
                 <td>{{ $albums->year}}</td>
                 <td>
                     <form action="{{ route('album.destroy', $albums->id) }}" method="POST">
-
                         <a class="btn btn-success" href="{{ route('album.show', $albums->id) }}" title="show">
                             show
                         </a>
-
                         <a class="btn btn-primary" href="{{ route('album.edit', $albums->id) }}">
                             edit<i class="fas fa-edit fa-lg"></i>
-
                         </a>
-
-                        @csrf
-                        @method('DELETE')
-
-                        <button  class="btn btn-danger" type="submit" title="delete">
-                            Delete
-
-                        </button>
+                        @can('album-delete')
+                            @csrf
+                            @method('DELETE')
+                            <button  class="btn btn-danger" type="submit" title="delete">
+                                Delete
+                            </button>
+                        @endcan
                     </form>
                 </td>
             </tr>

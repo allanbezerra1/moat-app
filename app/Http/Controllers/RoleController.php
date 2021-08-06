@@ -20,13 +20,13 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {
 
-    // function __construct()
-    // {
-    //      $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-    //      $this->middleware('permission:role-create', ['only' => ['create','store']]);
-    //      $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-    //      $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-    // }
+    function __construct()
+    {
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+    }
 
 
     public function index()
@@ -59,7 +59,7 @@ class RoleController extends Controller
           ->withSuccess('Role created successfully');
         } catch (\Throwable $th) {
             return redirect()->route('role.index')
-            ->with('error',$th->getMessage());
+            ->withErrors($th->getMessage());
         }
 
 
@@ -88,7 +88,7 @@ class RoleController extends Controller
 
       } catch (\Throwable $th) {
         return redirect()->route('role.index')
-        ->with('error',$th->getMessage());
+        ->withErrors($th->getMessage());
       }
 
     }
@@ -106,8 +106,8 @@ class RoleController extends Controller
         if (in_array($role->name, $default_roles)) {
             foreach($default_roles as $roleName) {
                 if ($role->name == $roleName && $request->input('name') != $roleName) {
-                    return redirect()->route('roles.index')
-                    ->with('error','it is not possible to remove a default group');
+                    return redirect()->route('role.index')
+                    ->withErrors('it is not possible to remove a default group');
                 }
             }
         }
@@ -117,8 +117,8 @@ class RoleController extends Controller
 
            return redirect()->route('role.index')->with('success','Role updated successfully');
         } catch (\Throwable $th) {
-            return redirect()->route('roles.index')
-            ->with('error',$th->getMessage());
+            return redirect()->route('role.index')
+            ->withErrors($th->getMessage());
         }
     }
 
@@ -127,9 +127,8 @@ class RoleController extends Controller
 
       $default_roles = config('defaults.roles');
       if (in_array($role->name, $default_roles)) {
-        return redirect()->route('roles.index')
-        ->with('error','it is not possible to remove a default group');
-
+        return redirect()->route('role.index')
+        ->withErrors('it is not possible to remove a default group');
       }
 
       try {
@@ -137,8 +136,8 @@ class RoleController extends Controller
           return redirect()->route('roles.index')
           ->with('success','Role deleted successfully');
       } catch (\Throwable $th) {
-        return redirect()->route('roles.index')
-        ->with('error',$th->getMessage());
+        return redirect()->route('role.index')
+        ->withErrors($th->getMessage());
       }
 
     }

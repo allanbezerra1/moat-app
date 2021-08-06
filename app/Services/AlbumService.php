@@ -33,6 +33,18 @@ class AlbumService
         return $newArtist;
     }
 
+    public function ArtistDetails($id){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', 'https://moat.ai/api/task/?id=2',
+            ['headers' => ['Basic' => 'ZGV2ZWxvcGVyOlpHVjJaV3h2Y0dWeQ==',
+            'Content-Type' => 'application/json',
+            ]
+        ]);
+         $newArtist =json_decode($response->getBody());
+
+         return $newArtist;
+    }
+
     public function FindById(int $id)
     {
         return $this->albumRepository->findById($id);

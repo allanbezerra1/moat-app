@@ -14,6 +14,10 @@ class AlbumController extends Controller
 
     public function __construct(AlbumService $albumServices)
     {
+        $this->middleware('permission:album-list|album-create|album-edit|album-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:album-create', ['only' => ['create','store']]);
+        $this->middleware('permission:album-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:album-delete', ['only' => ['destroy']]);
         $this->albumServices = $albumServices;
     }
 

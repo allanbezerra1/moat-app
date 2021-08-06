@@ -18,7 +18,10 @@ class UserController extends Controller
 
     public function __construct(UserServices $userServices)
     {
-
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
         $this->userServices = $userServices;
     }
 
@@ -30,7 +33,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        $roles = Role::pluck('name','name')->all();
+        return view('users.create', compact('roles'));
     }
 
     public function edit($id)
@@ -44,18 +48,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //Validate data
-        $data = $request->only('name','cpf','email', 'password', 'roles');
-        $validator = Validator::make($data, [
-            'full_name' => 'required|string',
-            'name' => 'required|string',
-            'password' => 'required|string|min:6|max:50',
-            // 'roles' =>'required'
+        $this->validate($request, [
+            'name' => 'required',
+            'full_name' => 'required|unique:users',
+            'password' => 'required|same:password_confirmation',
+            'roles' => 'required'
         ]);
-
         //Send failed response if request is not valid
-        if ($validator->fails()) {
-            return back();
-        }
 
         try {
             DB::beginTransaction();
@@ -65,11 +64,13 @@ class UserController extends Controller
             $user = $this->userServices->Create($input);
             $user->assignRole($request->input('roles'));
             DB::commit();
-            return back();
+            return redirect()->route('user.index')
+            ->with('success', 'user create success');
 
         } catch (\Throwable $th) {
             DB::rollBack();
-            return back();
+            return redirect()->route('user.index')
+            ->withErrors($th->getMessage());
         }
     }
 

@@ -12,19 +12,7 @@
         </div>
     </div>
 </div>
-
-
-@if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
-        <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-        </ul>
-    </div>
-@endif
-
+<x-alert></x-alert>
 
 {!! Form::model($role, ['method' => 'PATCH','route' => ['role.update', $role->id]]) !!}
 <div class="row">

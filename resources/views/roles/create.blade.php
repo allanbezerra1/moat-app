@@ -12,7 +12,7 @@
         </div>
     </div>
 </div>
-
+<x-alert></x-alert>
 
 {!! Form::open(array('route' => 'role.store','method'=>'POST')) !!}
 <div class="row">

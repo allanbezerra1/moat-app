@@ -11,17 +11,7 @@
             </div>
         </div>
     </div>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
+    <x-alert></x-alert>
     <form action="{{ route('album.update', $album->id) }}" method="POST" >
         @csrf
         @method('PUT')
@@ -30,7 +20,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Artist:</strong>
-                    <select class="form form-control" id="" name="artist" value="{{ $album->artist }}">
+                    <select class="form form-control" id="" name="artist" value={{ $album->artist }}>
                         @foreach ($newArtist as $artists )
                             <option value="{{ $artists->name }}">{{ $artists->name }}</option>
                         @endforeach

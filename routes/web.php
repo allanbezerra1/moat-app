@@ -7,10 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 
 
-//.. Other routes
-
 Auth::routes();
 
-Route::resource('user', UserController::class);
-Route::resource('role', RoleController::class);
-Route::resource('album', AlbumController::class);
+Route::get('/', function (){
+    return view('auth.login');
+});
+
+Route::group(['middleware' => ['auth', 'role:admin']], function() {
+    Route::resource('user', UserController::class);
+    Route::resource('role', RoleController::class);
+});
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('album', AlbumController::class);
+});
